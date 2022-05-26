@@ -1,4 +1,5 @@
 import { listaProductos } from '../controllers/controllers';
+import { productosDao } from '../daos/productos/index.js';
 
 const {Router} = require('express');
 
