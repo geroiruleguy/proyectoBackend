@@ -3,6 +3,24 @@ import express from 'express';
 import { productos } from './src/routes/productos.js';
 import { carritos } from './src/routes/carritos.js';
 
+//===========================================================================================================
+//Conexión a base de datos\\
+import mongoose from 'mongoose';
+
+// const dbName = 'ecommerce-CH'
+const username = 'GeronimoIruleguy'
+const password = 'coderhouse'
+const uri = `mongodb+srv://${username}:${password}@cluster0.simct.mongodb.net/?retryWrites=true&w=majority`
+
+
+export const connection =  mongoose.connect(uri,
+    { useNewUrlParser: true, useUnifiedTopology: true }
+) 
+    .then( ()=> console.log('Base de datos conectada'))
+    .catch(e => console.log(e));
+
+//===========================================================================================================    
+
 const app = express()
 
 app.use(express.json());
