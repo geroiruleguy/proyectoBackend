@@ -1,7 +1,5 @@
-import { listaCarritos } from '../../controllers/controllers.js';
-
-const {Router} = require('express');
-
+import { listaCarritos } from '../controllers/controllers.js';
+import { Router } from 'express';
 
 
 export const carritos = Router();

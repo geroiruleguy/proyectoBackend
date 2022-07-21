@@ -1,21 +1,23 @@
+
+
 let productosDao
 
 switch (process.env.db) {
   case 'json':
-    const { default: productosDaoArchivo } = await import('./productosDaoArchivo.js')
-    productosDao = new productosDaoArchivo('productos')
+    const { default: ProductosDaoArchivo } = await import('./productosDaoArchivo.js')
+    productosDao = new ProductosDaoArchivo('productos')
     break
   case 'mongodb':
-    const { default: productosDaoMongoDB } = await import('./productosDaoMongoDB.js')
-    productosDao = new productosDaoMongoDB()
+    const { default: ProductosDaoMongoDB } = await import('./productosDaoMongoDB.js')
+    productosDao = new ProductosDaoMongoDB()
     break
   case 'firebase':
-    const { default: productosDaoFirebase } = await import('./productosDaoFirebase.js')
-    productosDao = new productosDaoFirebase()
+    const { default: ProductosDaoFirebase } = await import('./productosDaoFirebase.js')
+    productosDao = new ProductosDaoFirebase()
     break
   default:
-    const { default: productosDaoMemoria } = await import('./productosDaoMemoria.js')
-    productosDao = new productosDaoMemoria()
+    const { default: ProductosDaoMemoria } = await import('./productosDaoMem.js')
+    productosDao = new ProductosDaoMemoria()
     break
 }
 

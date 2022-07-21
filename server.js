@@ -1,6 +1,7 @@
-const express = require('express')
-import { productos} from './src/routes/productos';
-import { carritos } from './src/routes/carritos';
+import express from 'express';
+
+import { productos } from './src/routes/productos.js';
+import { carritos } from './src/routes/carritos.js';
 
 const app = express()
 
@@ -17,7 +18,7 @@ app.all('*', (req, res) =>{
 
 
 
-const PORT = 8080
+const PORT = 3000
 const server = app.listen(PORT, () =>{
     console.log(`Servidor escuchando en el puerto ${server.address().port}`)
 })

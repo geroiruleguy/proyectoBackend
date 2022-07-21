@@ -1,12 +1,12 @@
-import { listaProductos } from '../controllers/controllers';
-import { productosDao } from '../daos/productos/index.js';
+import express  from 'express';
+import { listaProductos } from '../controllers/controllers.js';
+// import { productosDao } from '../daos/productos/index.js';
 
-const {Router} = require('express');
+import { Router } from 'express';
 
-
+const app = express()
 
 export const productos = Router();
-
 
 //Configuración del acceso
 
