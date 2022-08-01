@@ -29,6 +29,10 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/productos', productos)
 app.use('/api/carritos', carritos)
 
+//=============================================================================================================
+//Vista en chroome
+app.use(express.static('public'))
+
 //Error
 app.all('*', (req, res) =>{
     res.status(404).json
