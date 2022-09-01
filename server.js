@@ -1,7 +1,9 @@
 import express from 'express';
 
-import { productos } from './src/routes/productos.js';
-import { carritos } from './src/routes/carritos.js';
+import { productosRouter } from './src/routers/productosRouter.js';
+import { carritosRouter } from './src/routers/carritosRouter.js';
+import { usuariosRouter } from './src/routers/usuariosRouter.js'
+import { uploadFileRouter } from './src/routers/uploadFileRouter.js'
 
 //===========================================================================================================
 //Conexión a base de datos\\
@@ -10,14 +12,16 @@ import mongoose from 'mongoose';
 // const dbName = 'ecommerce-CH'
 const username = 'GeronimoIruleguy'
 const password = 'coderhouse'
-const uri = `mongodb+srv://${username}:${password}@cluster0.simct.mongodb.net/?retryWrites=true&w=majority`
+const mongo_uri = `mongodb+srv://${username}:${password}@cluster0.simct.mongodb.net/?retryWrites=true&w=majority`
 
 
-export const connection =  mongoose.connect(uri,
-    { useNewUrlParser: true, useUnifiedTopology: true }
-) 
-    .then( ()=> console.log('Base de datos conectada'))
-    .catch(e => console.log(e));
+mongoose.connect(mongo_uri, function(err) {
+    if (err) {
+        throw err; //throw es para que el programa se detenga en este punto y no siga ejecutando el codigo 
+    } else {
+        console.log('Connectado a mongo');
+    }
+});
 
 //===========================================================================================================    
 
@@ -26,12 +30,17 @@ const app = express()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
-app.use('/api/productos', productos)
-app.use('/api/carritos', carritos)
+//===============================================================================================================
+//Rutas
+app.use('/api/productos', productosRouter)
+app.use('/api/carritos', carritosRouter)
+app.use('/api/usuarios', usuariosRouter)
+app.use('/api/uploads', uploadFileRouter)
 
-//=============================================================================================================
+//===============================================================================================================
 //Vista en chroome
 app.use(express.static('public'))
+
 
 //Error
 app.all('*', (req, res) =>{
@@ -39,7 +48,7 @@ app.all('*', (req, res) =>{
 })
 
 
-
+//=============================================================================================================
 const PORT = 3000
 const server = app.listen(PORT, () =>{
     console.log(`Servidor escuchando en el puerto ${server.address().port}`)

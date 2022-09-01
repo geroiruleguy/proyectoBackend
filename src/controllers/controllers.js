@@ -11,7 +11,7 @@ class Contenedor {
         fs.promises.writeFile(this.route, JSON.stringify(input));
     }
 
-//Controler Productos
+//Controller Productos
 
 
     async getAll() {

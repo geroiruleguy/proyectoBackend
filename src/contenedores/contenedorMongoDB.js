@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-import config from '../config.js'
+import conectDB from '../persistencia/config.js'
 
-await mongoose.connect(config.mongodb.cnxStr, config.mongodb.options)
+await mongoose.connect(conectDB.mongodb.cnxStr, conectDB.mongodb.options)
 
 class ContenedorMongoDb {
 

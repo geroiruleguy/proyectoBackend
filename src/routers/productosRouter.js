@@ -1,12 +1,12 @@
 import express  from 'express';
+import { Router } from 'express';
 import { listaProductos } from '../controllers/controllers.js';
 // import { productosDao } from '../daos/productos/index.js';
 
-import { Router } from 'express';
 
 const app = express()
 
-export const productos = Router();
+export const productosRouter = Router();
 
 //Configuración del acceso
 
@@ -15,7 +15,7 @@ const admin = false
 
 
 //Listar todos los productos
-productos.get('/', async (req, res) =>{
+productosRouter.get('/', async (req, res) =>{
     try {
         const data = await listaProductos.getAll();
         res.json(data);
@@ -26,7 +26,7 @@ productos.get('/', async (req, res) =>{
 
 //Listar todos los productos disponibles ó un producto por su id 
 
-productos.get('/:id', async (req, res) => {
+productosRouter.get('/:id', async (req, res) => {
     try {
       const producto = await listaProductos.getById(req.params.id);
       producto ? res.json(producto) : res.status(404).json;
@@ -36,7 +36,7 @@ productos.get('/:id', async (req, res) => {
   });
 
 //Incorporar productos al listado (disponible solo para admins)
-productos.post('/', async (req, res) => {
+productosRouter.post('/', async (req, res) => {
     const nombre = req.body.title;
     const descripcion = req.body.descripcion;
     const url = req.body.thumbnail;
@@ -56,7 +56,7 @@ productos.post('/', async (req, res) => {
 
 //Actualizar un producto por su id
 
-productos.put('/:id', async (req, res) => {
+productosRouter.put('/:id', async (req, res) => {
   const id = req.params.id;
   const nombre = req.body.title;
   const descripcion = req.body.description;
@@ -78,7 +78,7 @@ productos.put('/:id', async (req, res) => {
 
 //Eliminar un producto por su id
 
-productos.delete('/:id', async (req, res) => {
+productosRouter.delete('/:id', async (req, res) => {
   if (admin) {
     try {
       const productoEliminado = await listaProductos.deleteById(req.params.id);
