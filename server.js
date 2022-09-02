@@ -4,6 +4,7 @@ import { productosRouter } from './src/routers/productosRouter.js';
 import { carritosRouter } from './src/routers/carritosRouter.js';
 import { usuariosRouter } from './src/routers/usuariosRouter.js'
 import { uploadFileRouter } from './src/routers/uploadFileRouter.js'
+import { authRouter } from './src/routers/authRouter.js';
 
 //===========================================================================================================
 //Conexión a base de datos\\
@@ -36,6 +37,9 @@ app.use('/api/productos', productosRouter)
 app.use('/api/carritos', carritosRouter)
 app.use('/api/usuarios', usuariosRouter)
 app.use('/api/uploads', uploadFileRouter)
+app.use('/api', authRouter)
+app.all('*', (req, res) => { res.status(404) })
+
 
 //===============================================================================================================
 //Vista en chroome
