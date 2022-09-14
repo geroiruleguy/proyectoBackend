@@ -1,10 +1,8 @@
 import express from 'express';
-
-import { productosRouter } from './src/routers/productosRouter.js';
-import { carritosRouter } from './src/routers/carritosRouter.js';
-import { usuariosRouter } from './src/routers/usuariosRouter.js'
-import { uploadFileRouter } from './src/routers/uploadFileRouter.js'
-import { authRouter } from './src/routers/authRouter.js';
+import config from './config.js';
+import { routes } from './src/routes/index.js'
+import cors from 'cors'
+import multer from 'multer'
 
 //===========================================================================================================
 //Conexión a base de datos\\
@@ -18,7 +16,7 @@ const mongo_uri = `mongodb+srv://${username}:${password}@cluster0.simct.mongodb.
 
 mongoose.connect(mongo_uri, function(err) {
     if (err) {
-        throw err; //throw es para que el programa se detenga en este punto y no siga ejecutando el codigo 
+        throw err 
     } else {
         console.log('Connectado a mongo');
     }
@@ -28,24 +26,25 @@ mongoose.connect(mongo_uri, function(err) {
 
 const app = express()
 
+if(config.NODE_ENV == 'development')app.use(cors())
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
-
-//===============================================================================================================
-//Rutas
-app.use('/api/productos', productosRouter)
-app.use('/api/carritos', carritosRouter)
-app.use('/api/usuarios', usuariosRouter)
-app.use('/api/uploads', uploadFileRouter)
-app.use('/api', authRouter)
-app.all('*', (req, res) => { res.status(404) })
 
 
 //===============================================================================================================
 //Vista en chroome
 app.use(express.static('public'))
 
+//===============================================================================================================
+//Multer
+const upload = multer({ dest: 'uploads/' })
 
+//===============================================================================================================
+//Rutas
+routes(app);
+
+//===============================================================================================================
 //Error
 app.all('*', (req, res) =>{
     res.status(404).json
