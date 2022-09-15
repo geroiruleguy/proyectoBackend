@@ -1,4 +1,5 @@
 import Order from '../models/orders.js'
+import { transporter } from '../messageSender/emailSender/index.js'
 
 export async function createOrder(req, res) {
   
@@ -7,8 +8,8 @@ export async function createOrder(req, res) {
   if (!body) {
     return res.status(400).json({ success: false, error: "Ha ocurrido un error! No se ingresó una orden" });
   }
-  
-  // const orderNumber = await Order.estimatedDocumentCount()
+  console.log(JSON.stringify(body))
+  const orderNumber = await Order.estimatedDocumentCount()
 
   const order = new Order({
     orderNumber: orderNumber === 0 ? 1 : orderNumber + 1,
@@ -18,6 +19,7 @@ export async function createOrder(req, res) {
     productItems: body.productItems,
   })
 
+  console.log(JSON.stringify(order))
   if (!order) {
     return res.status(400).json({ success: false, error: "Ha ocurrido un error! Hay campos vacíos" });
   }
@@ -25,6 +27,7 @@ export async function createOrder(req, res) {
     .save()
     .then(() => {
       try {
+        res.status(201).json({ success: true, id: order._id });
         const orderMailOptions = {
 
           from: 'coderhouseuser@gmail.com',
@@ -38,12 +41,12 @@ export async function createOrder(req, res) {
           <span>Numero de orden: ${orderNumber === 0 ? 1 : orderNumber + 1}</span>
           `
       }
-        sendEmail(orderMailOptions);
+        transporter.sendEmail(orderMailOptions);
 
       } catch (err) {
-        return res.status(502).json({err})
+        console.error("Could not send order email.");
+        console.error(JSON.stringify(err))
       }
-      return res.status(201).json({ success: true, id: order.id });
     })
     .catch((err) => {
       return res.status(400).json(err);

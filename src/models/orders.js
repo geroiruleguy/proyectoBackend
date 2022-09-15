@@ -4,7 +4,6 @@ const Schema = new mongoose.Schema(
   {
     orderNumber: {
       type: Number,
-      auto: true
     },
     email: {
       type: String,

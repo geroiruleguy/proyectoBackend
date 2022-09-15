@@ -14,7 +14,7 @@ app.use('/api/', productRouter)
 
 app.use('/api/', cartRouter) 
 
-app.use('api/', orderRouter) //POST: crea una nueva orden (compra todo el contenido de un carrito y lo vacía, solo usuarios registrados)
+app.use('/api/', orderRouter) //POST: crea una nueva orden (compra todo el contenido de un carrito y lo vacía, solo usuarios registrados)
                                     //GET: devuelve todas las ordenes de un usuario (solo usuarios registrados)
 
 app.all('*', (req, res) => { res.status(404) })
