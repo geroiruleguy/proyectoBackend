@@ -3,6 +3,10 @@ import config from './config.js';
 import { routes } from './src/routes/index.js'
 import cors from 'cors'
 import multer from 'multer'
+import dotenv from 'dotenv'
+
+dotenv.config();
+
 
 //===========================================================================================================
 //Conexión a base de datos\\
